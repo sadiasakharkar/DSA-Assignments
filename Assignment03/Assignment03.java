@@ -69,38 +69,41 @@ class Playlist {
     }
 
     // Insert song at middle position (after floor(count/2) nodes)
-    public void insertMiddle(int id, String name, String artist) {
+    public void insertAtPosition(int id, String name, String artist, int pos) {
         Node newSong = new Node(id, name, artist);
-        if (head == null) {
+
+        if (head == null) { // Empty list
             head = tail = current = newSong;
-            System.out.println("Song added at the middle (first song)!");
+            head.next = head.prev = head;
+            System.out.println("Song added as the first song!");
             return;
         }
 
-        // Count nodes
-        int count = 0;
+        int count = 1;
         Node temp = head;
-        while (temp != null) {
+        do {
+            temp = temp.next;
             count++;
-            temp = temp.next;
-        }
+        } while (temp != head);
 
-        int mid = count / 2; // 0-based index
-        temp = head;
-        for (int i = 0; i < mid; i++) {
-            temp = temp.next;
-        }
+        if (pos <= 1) { // Insert at beginning
+            insertFirst(id, name, artist);
+        } else if (pos > count) { // Insert at end
+            insertLast(id, name, artist);
+        } else { // Insert at given position
+            temp = head;
+            for (int i = 1; i < pos; i++) { // move to position
+                temp = temp.next;
+            }
 
-        // Insert before temp
-        newSong.prev = temp.prev;
-        newSong.next = temp;
-        if (temp.prev != null)
+            // Insert before temp
+            newSong.prev = temp.prev;
+            newSong.next = temp;
             temp.prev.next = newSong;
-        temp.prev = newSong;
+            temp.prev = newSong;
 
-        if (mid == 0)
-            head = newSong; // if inserted at start
-        System.out.println("Song added at the middle!");
+            System.out.println("Song added at position " + pos + "!");
+        }
     }
 
     // Show playlist forward
@@ -215,7 +218,7 @@ public class Assignment03 {
         do {
             System.out.println("\n--- Music Player Menu ---");
             System.out.println("1. Insert Song at Beginning");
-            System.out.println("2. Insert Song at Middle");
+            System.out.println("2. Insert Song at Position");
             System.out.println("3. Insert Song at End");
             System.out.println("4. Play Next Song");
             System.out.println("5. Play Previous Song");
@@ -247,7 +250,10 @@ public class Assignment03 {
                     String name = sc.nextLine();
                     System.out.print("Enter Artist Name: ");
                     String artist = sc.nextLine();
-                    playlist.insertMiddle(id, name, artist);
+                    System.out.print("Enter position to insert: ");
+                    int pos = sc.nextInt();
+                    sc.nextLine();
+                    playlist.insertAtPosition(id, name, artist, pos);
                 }
                 case 3 -> {
                     System.out.print("Enter Song ID: ");
