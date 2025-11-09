@@ -74,38 +74,6 @@ class Playlist {
         System.out.println("Song added at the end!");
     }
 
-    // Insert at middle (auto-calculated middle)
-    public void insertMiddle(int id, String name, String artist) {
-        if (head == null) {
-            insertFirst(id, name, artist);
-            System.out.println("Song added at middle (first song)!");
-            return;
-        }
-
-        Node newSong = new Node(id, name, artist);
-        int count = 1;
-        Node temp = head;
-        while (temp.next != head) {
-            count++;
-            temp = temp.next;
-        }
-
-        int mid = count / 2;
-        temp = head;
-        for (int i = 0; i < mid; i++) {
-            temp = temp.next;
-        }
-
-        newSong.prev = temp.prev;
-        newSong.next = temp;
-        temp.prev.next = newSong;
-        temp.prev = newSong;
-
-        if (mid == 0)
-            head = newSong;
-        System.out.println("Song added at the middle!");
-    }
-
     // Insert at specific position (0-based index)
     public void insertAtPosition(int id, String name, String artist, int pos) {
         if (pos < 0) {
@@ -113,31 +81,33 @@ class Playlist {
             return;
         }
 
-        if (head == null) {
+        Node newSong = new Node(id, name, artist);
+
+        if (head == null) { // empty list
             if (pos > 0) {
                 System.out.println("Invalid position, list is empty!");
                 return;
             } else {
-                insertFirst(id, name, artist);
+                head = tail = current = newSong;
+                head.next = head.prev = head;
+                System.out.println("Song added as the first song!");
                 return;
             }
         }
 
-        if (pos == 0) {
+        if (pos == 0) { // insert at beginning
             insertFirst(id, name, artist);
             return;
         }
 
-        Node newSong = new Node(id, name, artist);
         Node ptr = head;
         int index = 0;
-        while (index < pos - 1 && ptr.next != head) {
+        while (index < pos - 1 && ptr.next != head) { // move to position
             ptr = ptr.next;
             index++;
         }
 
-        // Insert at end if position is beyond current length
-        if (ptr.next == head && index < pos - 1) {
+        if (ptr.next == head && index < pos - 1) { // insert at end if position beyond length
             insertLast(id, name, artist);
             return;
         }
@@ -147,6 +117,7 @@ class Playlist {
         newSong.prev = ptr;
         ptr.next.prev = newSong;
         ptr.next = newSong;
+
         System.out.println("Song added at position " + pos + "!");
     }
 
@@ -259,16 +230,15 @@ public class Assignment03DCLL {
         do {
             System.out.println("\n--- Music Player Menu ---");
             System.out.println("1. Insert Song at Beginning");
-            System.out.println("2. Insert Song at Middle");
-            System.out.println("3. Insert Song at End");
-            System.out.println("4. Insert Song at Position");
-            System.out.println("5. Play Next Song");
-            System.out.println("6. Play Previous Song");
-            System.out.println("7. Show Current Song");
-            System.out.println("8. Delete Song by ID");
-            System.out.println("9. Show Playlist (Forward)");
-            System.out.println("10. Show Playlist (Reverse)");
-            System.out.println("11. Exit");
+            System.out.println("2. Insert Song at End");
+            System.out.println("3. Insert Song at Position");
+            System.out.println("4. Play Next Song");
+            System.out.println("5. Play Previous Song");
+            System.out.println("6. Show Current Song");
+            System.out.println("7. Delete Song by ID");
+            System.out.println("8. Show Playlist (Forward)");
+            System.out.println("9. Show Playlist (Reverse)");
+            System.out.println("10. Exit");
             System.out.print("Enter your choice: ");
             choice = sc.nextInt();
             sc.nextLine();
@@ -292,19 +262,9 @@ public class Assignment03DCLL {
                     String name = sc.nextLine();
                     System.out.print("Enter Artist Name: ");
                     String artist = sc.nextLine();
-                    playlist.insertMiddle(id, name, artist);
-                }
-                case 3 -> {
-                    System.out.print("Enter Song ID: ");
-                    int id = sc.nextInt();
-                    sc.nextLine();
-                    System.out.print("Enter Song Name: ");
-                    String name = sc.nextLine();
-                    System.out.print("Enter Artist Name: ");
-                    String artist = sc.nextLine();
                     playlist.insertLast(id, name, artist);
                 }
-                case 4 -> {
+                case 3 -> {
                     System.out.print("Enter Song ID: ");
                     int id = sc.nextInt();
                     sc.nextLine();
@@ -317,21 +277,21 @@ public class Assignment03DCLL {
                     sc.nextLine();
                     playlist.insertAtPosition(id, name, artist, pos);
                 }
-                case 5 -> playlist.playNext();
-                case 6 -> playlist.playPrevious();
-                case 7 -> playlist.showCurrent();
-                case 8 -> {
+                case 4 -> playlist.playNext();
+                case 5 -> playlist.playPrevious();
+                case 6 -> playlist.showCurrent();
+                case 7 -> {
                     System.out.print("Enter Song ID to delete: ");
                     int delId = sc.nextInt();
                     sc.nextLine();
                     playlist.deleteSong(delId);
                 }
-                case 9 -> playlist.displayForward();
-                case 10 -> playlist.displayReverse();
-                case 11 -> System.out.println("Exiting... Thanks for using Spotify Simulation!");
+                case 8 -> playlist.displayForward();
+                case 9 -> playlist.displayReverse();
+                case 10 -> System.out.println("Exiting... Thanks for using Spotify Simulation!");
                 default -> System.out.println("Invalid choice, try again!");
             }
-        } while (choice != 11);
+        } while (choice != 10);
 
         sc.close();
     }
