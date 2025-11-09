@@ -5,17 +5,17 @@ Roll No: UCE2025002
 Batch: A4
 Assignment 03
 
-DLL
+DCLL (Circular Doubly Linked List)
 
 PROBLEM STATEMENT: 
-Simulate the working of a simple music player playlist using Linked List 
+Simulate the working of a simple music player playlist using DCLL 
 demonstrating operations like adding songs, deleting songs, and moving 
 forward & backward through the playlist.
 */
 
 import java.util.*;
 
-// Node class to define song structure
+// Node class
 class Node {
     int id;
     String songName;
@@ -32,7 +32,7 @@ class Node {
     }
 }
 
-// Playlist class with operations
+// Playlist class
 class Playlist {
     Node head;
     Node tail;
@@ -42,60 +42,64 @@ class Playlist {
         head = tail = current = null;
     }
 
-    // Insert song at first position
+    // Insert at first
     public void insertFirst(int id, String name, String artist) {
         Node newSong = new Node(id, name, artist);
         if (head == null) {
             head = tail = current = newSong;
+            head.next = head.prev = head;
         } else {
             newSong.next = head;
+            newSong.prev = tail;
             head.prev = newSong;
+            tail.next = newSong;
             head = newSong;
         }
         System.out.println("Song added at the beginning!");
     }
 
-    // Insert song at last position
+    // Insert at last
     public void insertLast(int id, String name, String artist) {
         Node newSong = new Node(id, name, artist);
-        if (tail == null) {
+        if (head == null) {
             head = tail = current = newSong;
+            head.next = head.prev = head;
         } else {
-            tail.next = newSong;
             newSong.prev = tail;
+            newSong.next = head;
+            tail.next = newSong;
+            head.prev = newSong;
             tail = newSong;
         }
         System.out.println("Song added at the end!");
     }
 
-    // Insert song at middle position (after floor(count/2) nodes)
+    // Insert at middle
     public void insertMiddle(int id, String name, String artist) {
-        Node newSong = new Node(id, name, artist);
         if (head == null) {
-            head = tail = current = newSong;
-            System.out.println("Song added at the middle (first song)!");
+            insertFirst(id, name, artist);
+            System.out.println("Song added at middle (first song)!");
             return;
         }
 
+        Node newSong = new Node(id, name, artist);
         // Count nodes
-        int count = 0;
+        int count = 1;
         Node temp = head;
-        while (temp != null) {
+        while (temp.next != head) {
             count++;
             temp = temp.next;
         }
 
-        int mid = count / 2; // 0-based index
+        int mid = count / 2;
         temp = head;
         for (int i = 0; i < mid; i++) {
             temp = temp.next;
         }
 
-        // Insert before temp
         newSong.prev = temp.prev;
         newSong.next = temp;
-        if (temp.prev != null)
-            temp.prev.next = newSong;
+        temp.prev.next = newSong;
         temp.prev = newSong;
 
         if (mid == 0)
@@ -103,7 +107,7 @@ class Playlist {
         System.out.println("Song added at the middle!");
     }
 
-    // Show playlist forward
+    // Show forward
     public void displayForward() {
         if (head == null) {
             System.out.println("Playlist is empty!");
@@ -111,35 +115,33 @@ class Playlist {
         }
         System.out.println("\n--- Playlist (Forward) ---");
         Node temp = head;
-        while (temp != null) {
+        do {
             System.out.println("ID: " + temp.id + " | Song: " + temp.songName + " | Artist: " + temp.artist);
             temp = temp.next;
-        }
+        } while (temp != head);
     }
 
-    // Show playlist reverse
+    // Show reverse
     public void displayReverse() {
-        if (tail == null) {
+        if (head == null) {
             System.out.println("Playlist is empty!");
             return;
         }
         System.out.println("\n--- Playlist (Reverse) ---");
         Node temp = tail;
-        while (temp != null) {
+        do {
             System.out.println("ID: " + temp.id + " | Song: " + temp.songName + " | Artist: " + temp.artist);
             temp = temp.prev;
-        }
+        } while (temp != tail);
     }
 
     // Play next song
     public void playNext() {
         if (current == null) {
             System.out.println("No songs in the playlist!");
-        } else if (current.next != null) {
+        } else {
             current = current.next;
             showCurrent();
-        } else {
-            System.out.println("You are at the last song!");
         }
     }
 
@@ -147,11 +149,9 @@ class Playlist {
     public void playPrevious() {
         if (current == null) {
             System.out.println("No songs in the playlist!");
-        } else if (current.prev != null) {
+        } else {
             current = current.prev;
             showCurrent();
-        } else {
-            System.out.println("You are at the first song!");
         }
     }
 
@@ -173,30 +173,31 @@ class Playlist {
         }
 
         Node temp = head;
-        while (temp != null && temp.id != id) {
+        boolean found = false;
+        do {
+            if (temp.id == id) {
+                found = true;
+                break;
+            }
             temp = temp.next;
-        }
+        } while (temp != head);
 
-        if (temp == null) {
+        if (!found) {
             System.out.println("Song with ID " + id + " not found!");
             return;
         }
 
-        if (temp == head) {
-            head = head.next;
-            if (head != null)
-                head.prev = null;
-        } else if (temp == tail) {
-            tail = tail.prev;
-            if (tail != null)
-                tail.next = null;
+        if (temp == head && temp == tail) { // only one node
+            head = tail = current = null;
         } else {
             temp.prev.next = temp.next;
             temp.next.prev = temp.prev;
-        }
-
-        if (current == temp) {
-            current = (temp.next != null) ? temp.next : temp.prev;
+            if (temp == head)
+                head = temp.next;
+            if (temp == tail)
+                tail = temp.prev;
+            if (current == temp)
+                current = temp.next;
         }
 
         System.out.println("Song deleted successfully!");
@@ -204,13 +205,13 @@ class Playlist {
 }
 
 // Main class
-public class Assignment03 {
+public class Assignment03DCLL {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Playlist playlist = new Playlist();
         int choice;
 
-        System.out.println("🎶 Welcome to Spotify Simulation 🎶");
+        System.out.println("🎶 Welcome to Spotify Simulation (DCLL) 🎶");
 
         do {
             System.out.println("\n--- Music Player Menu ---");
