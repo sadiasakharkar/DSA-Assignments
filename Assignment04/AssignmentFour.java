@@ -4,12 +4,18 @@ import java.util.*;
 
 class SubsetSum {
     public boolean isSubsetSum(int arr[], int idx, int sum) {
+        // is an integer tracking the current array position in the recursion,
+        // starting from the last element and decreasing by 1 each step until all
+        // elements are checked.
+        // sum is the remaining target sum we want to achieve.
+
         if (idx == -1 && sum != 0) {
             return false;
         }
         if (sum == 0) {
             return true;
         }
+
         // include current array element
         boolean included = isSubsetSum(arr, idx - 1, sum - arr[idx]);
         // exclude current array element
@@ -25,11 +31,14 @@ class SubsetSum {
             System.out.println(list);
             return;
         }
+
         // include current element
         list.add(arr[idx]);
         printAllSubsets(list, arr, idx - 1, sum - arr[idx]);
+
         // backtrack
         list.remove(list.size() - 1);
+
         // exclude current element
         printAllSubsets(list, arr, idx - 1, sum);
     }
