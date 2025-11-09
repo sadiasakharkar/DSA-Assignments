@@ -1,5 +1,7 @@
 package Assignment02;
 
+// SLL implementation of Code Club members
+
 import java.util.*;
 
 // Member class
@@ -7,7 +9,7 @@ class Member {
     int memberId;
     String name;
     String address;
-    String position; // member, secretary, president
+    String position;
     Member link;
 
     Member(int memberId, String name, String address, String position) {
