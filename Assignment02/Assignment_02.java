@@ -10,14 +10,14 @@ class Member {
     String name;
     String address;
     String position;
-    Member link;
+    Member next; // changed 'link' to 'next'
 
     Member(int memberId, String name, String address, String position) {
         this.memberId = memberId;
         this.name = name;
         this.address = address;
         this.position = position;
-        this.link = null;
+        this.next = null;
     }
 }
 
@@ -58,10 +58,10 @@ class CodeClub {
             head = newMember;
         } else {
             Member temp = head;
-            while (temp.link != null) {
-                temp = temp.link;
+            while (temp.next != null) {
+                temp = temp.next;
             }
-            temp.link = newMember;
+            temp.next = newMember;
         }
         System.out.println("Member added!");
     }
@@ -80,7 +80,7 @@ class CodeClub {
             System.out.println("Address: " + temp.address);
             System.out.println("Position: " + temp.position);
             System.out.println("----------------------");
-            temp = temp.link;
+            temp = temp.next;
         }
     }
 
@@ -95,23 +95,23 @@ class CodeClub {
         }
 
         if (head.memberId == id) {
-            head = head.link;
+            head = head.next;
             System.out.println("Member deleted!");
             return;
         }
 
         Member prev = head;
-        Member curr = head.link;
+        Member curr = head.next;
 
         while (curr != null && curr.memberId != id) {
             prev = curr;
-            curr = curr.link;
+            curr = curr.next;
         }
 
         if (curr == null) {
             System.out.println("Member not found.");
         } else {
-            prev.link = curr.link;
+            prev.next = curr.next;
             System.out.println("Member deleted!");
         }
     }
@@ -123,7 +123,7 @@ class CodeClub {
 
         Member temp = head;
         while (temp != null && temp.memberId != id) {
-            temp = temp.link;
+            temp = temp.next;
         }
 
         if (temp == null) {
