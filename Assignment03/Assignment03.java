@@ -72,38 +72,54 @@ class Playlist {
     public void insertAtPosition(int id, String name, String artist, int pos) {
         Node newSong = new Node(id, name, artist);
 
-        if (head == null) { // Empty list
-            head = tail = current = newSong;
-            head.next = head.prev = head;
-            System.out.println("Song added as the first song!");
+        // Check for invalid index
+        if (pos < 0) {
+            System.out.println("Invalid position!");
             return;
         }
 
-        int count = 1;
-        Node temp = head;
-        do {
-            temp = temp.next;
-            count++;
-        } while (temp != head);
-
-        if (pos <= 1) { // Insert at beginning
-            insertFirst(id, name, artist);
-        } else if (pos > count) { // Insert at end
-            insertLast(id, name, artist);
-        } else { // Insert at given position
-            temp = head;
-            for (int i = 1; i < pos; i++) { // move to position
-                temp = temp.next;
+        // Empty list handling
+        if (head == null) {
+            if (pos > 0) { // can't insert at position > 0 if list is empty
+                System.out.println("Invalid position, list is empty!");
+                return;
+            } else { // insert at head
+                head = tail = current = newSong;
+                head.next = head.prev = head; // for circular DLL
+                System.out.println("Song added as the first song!");
+                return;
             }
-
-            // Insert before temp
-            newSong.prev = temp.prev;
-            newSong.next = temp;
-            temp.prev.next = newSong;
-            temp.prev = newSong;
-
-            System.out.println("Song added at position " + pos + "!");
         }
+
+        // Insert at beginning
+        if (pos == 0) {
+            insertFirst(id, name, artist);
+            return;
+        }
+
+        // Traverse to position - 1
+        Node ptr = head;
+        for (int i = 0; i < pos - 1; i++) {
+            ptr = ptr.next;
+            if (ptr == null) {
+                System.out.println("Invalid position!");
+                return;
+            }
+        }
+
+        // Insert at end if ptr.next is null
+        if (ptr.next == null) {
+            insertLast(id, name, artist);
+            return;
+        }
+
+        // Insert in middle
+        newSong.next = ptr.next;
+        newSong.prev = ptr;
+        ptr.next.prev = newSong;
+        ptr.next = newSong;
+
+        System.out.println("Song added at position " + pos + "!");
     }
 
     // Show playlist forward
