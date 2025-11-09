@@ -75,50 +75,53 @@ class Playlist {
     }
 
     // Insert at specific position (0-based index)
-    public void insertAtPosition(int id, String name, String artist, int pos) {
-        if (pos < 0) {
+    public void insertAtPosition(int id, String name, String artist, int index) {
+        if (index < 0) {
             System.out.println("Invalid position!");
             return;
         }
 
         Node newSong = new Node(id, name, artist);
 
-        if (head == null) { // empty list
-            if (pos > 0) {
-                System.out.println("Invalid position, list is empty!");
-                return;
-            } else {
-                head = tail = current = newSong;
-                head.next = head.prev = head;
-                System.out.println("Song added as the first song!");
-                return;
-            }
-        }
-
-        if (pos == 0) { // insert at beginning
+        // Insert at beginning
+        if (index == 0) {
             insertFirst(id, name, artist);
             return;
         }
 
-        Node ptr = head;
-        int index = 0;
-        while (index < pos - 1 && ptr.next != head) { // move to position
-            ptr = ptr.next;
-            index++;
+        // Empty list and index > 0 is invalid
+        if (head == null) {
+            System.out.println("Invalid position, list is empty!");
+            return;
         }
 
-        if (ptr.next == head && index < pos - 1) { // insert at end if position beyond length
+        Node ptr = head;
+        for (int i = 0; i < index - 1; i++) {
+            ptr = ptr.next;
+            if (ptr == head)
+                break; // reached end, stop
+        }
+
+        // If we reached back to head, insert at end
+        if (ptr.next == head) {
             insertLast(id, name, artist);
             return;
         }
 
         // Normal insertion in middle
-        newSong.next = ptr.next;
         newSong.prev = ptr;
+        newSong.next = ptr.next;
         ptr.next.prev = newSong;
         ptr.next = newSong;
 
-        System.out.println("Song added at position " + pos + "!");
+        // Update head or tail if needed
+        if (ptr == tail)
+            tail = newSong;
+
+        head.prev = tail;
+        tail.next = head;
+
+        System.out.println("Song added at position " + index + "!");
     }
 
     // Display forward
