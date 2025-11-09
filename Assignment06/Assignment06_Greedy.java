@@ -14,7 +14,8 @@ import java.util.*;
 
 class GreedyJob {
     char id;
-    int deadline, profit;
+    int deadline;
+    int profit;
 
     public GreedyJob(char id, int deadline, int profit) {
         this.id = id;
