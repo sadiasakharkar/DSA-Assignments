@@ -1,15 +1,17 @@
 package Assignment09;
-// The provided code is a Java program that implements a mobile phone contact list. It allows users to
 
-// perform the following operations:
 // Name: Sadia Sakharkar
 // Roll No: UCE2025002
 // Batch: A4
 // Assignment 09
 
+// The provided code is a Java program that implements a mobile phone contact list. It allows users to
+// perform the following operations:
 // Problem Statement: Design mobile phone contact list which stores name and contact number in ascending order.
 // Develop a code to search a particular contact details of specified name, insert new contact and
 // delete particular contact from list
+
+// linear probing (open addressing technique) for collision handling in hash table without replacement.
 
 import java.util.*;
 
@@ -26,7 +28,7 @@ class Contact {
 }
 
 class ContactList {
-    private static final Contact DELETED = new Contact(-1, "DELETED", ""); // marker
+    private static final Contact DELETED = new Contact(-1, "DELETED", ""); // marker, special dummy object
     int size;
     Contact[] hashTable;
 
@@ -48,6 +50,11 @@ class ContactList {
     private boolean isValidMobile(long num) {
         return String.valueOf(num).matches("\\d{10}");
     }
+
+    // private boolean isValidMobile(long num) {
+    // String s = String.valueOf(num);
+    // return s.length() == 10;
+    // }
 
     private boolean isValidEmail(String email) {
         return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
