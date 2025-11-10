@@ -1,4 +1,8 @@
 package Assignment08;
+
+// import Assignment07.Node;
+// import Assignment03.Node;
+
 // Name: Sadia Sakharkar
 
 // Roll No: UCE2025002
@@ -13,10 +17,6 @@ package Assignment08;
 // sum of the bandwidths is maximized. Print this sum
 
 import java.util.*;
-
-// import Assignment07.Node;
-
-// import Assignment03.Node;
 
 // Node class represents one edge in adjacency list
 class Node {

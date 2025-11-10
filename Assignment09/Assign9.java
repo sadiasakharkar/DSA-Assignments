@@ -28,12 +28,14 @@ class Contact {
 }
 
 class ContactList {
+    Scanner sc;
     private static final Contact DELETED = new Contact(-1, "DELETED", ""); // marker, special dummy object
     int size;
     Contact[] hashTable;
 
     ContactList(int n) {
         this.size = n;
+        this.sc = new Scanner(System.in);
         hashTable = new Contact[size];
     }
 
@@ -76,7 +78,7 @@ class ContactList {
 
     // Insert contact with validation and duplicate check
     public void create() {
-        Scanner sc = new Scanner(System.in);
+        // Scanner sc = new Scanner(System.in);
 
         System.out.print("Enter Name: ");
         String name = sc.nextLine().trim();
@@ -130,14 +132,11 @@ class ContactList {
         } else {
             System.out.println("✅ Contact inserted at index " + index);
         }
-
-        hashTable[index] = newCon;
-        System.out.println("✅ Contact inserted at index " + index);
     }
 
     // Search by name
     public void search_by_name() {
-        Scanner sc = new Scanner(System.in);
+        // Scanner sc = new Scanner(System.in);
         System.out.print("Enter name to search: ");
         String name = sc.nextLine();
 
@@ -155,7 +154,7 @@ class ContactList {
 
     // Search by number
     public void search() {
-        Scanner sc = new Scanner(System.in);
+        // Scanner sc = new Scanner(System.in);
         System.out.print("Enter number to search: ");
         long number = sc.nextLong();
 
@@ -178,7 +177,7 @@ class ContactList {
 
     // Delete contact by number (use DELETED marker)
     void delete() {
-        Scanner sc = new Scanner(System.in);
+        // Scanner sc = new Scanner(System.in);
         System.out.print("Enter number to delete: ");
         long number = sc.nextLong();
 
