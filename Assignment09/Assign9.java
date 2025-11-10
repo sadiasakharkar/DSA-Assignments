@@ -12,7 +12,6 @@ package Assignment09;
 // delete particular contact from list
 
 import java.util.*;
-import java.util.regex.*;
 
 class Contact {
     long mobile_no;
@@ -244,5 +243,6 @@ public class Assign9 {
             }
 
         } while (choice != 0);
+        sc.close();
     }
 }
