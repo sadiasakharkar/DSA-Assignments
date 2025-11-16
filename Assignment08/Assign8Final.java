@@ -31,7 +31,6 @@ class Node {
     }
 }
 
-// Custom linked list for each vertex’s adjacency list
 class CustomLinkedList {
     Node head;
 
