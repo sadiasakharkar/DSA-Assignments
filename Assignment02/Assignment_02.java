@@ -84,35 +84,37 @@ class CodeClub {
         }
     }
 
-    void delet_node() {
-        System.out.print("Enter member ID to remove: ");
+    void delete_node() {
+        if (head == null) {
+            System.out.println("List is empty!");
+            return;
+        }
+
+        System.out.print("Enter member ID to delete: ");
         int id = sc.nextInt();
         sc.nextLine();
 
-        if (head == null) {
-            System.out.println("No members to delete.");
-            return;
-        }
-
+        // If first node is the match
         if (head.memberId == id) {
             head = head.next;
-            System.out.println("Member deleted!");
+            System.out.println("Member deleted successfully!");
             return;
         }
 
-        Member prev = head;
-        Member curr = head.next;
+        Member temp = head;
 
-        while (curr != null && curr.memberId != id) {
-            prev = curr;
-            curr = curr.next;
+        // Move until the next node is the one to delete
+        while (temp.next != null && temp.next.memberId != id) {
+            temp = temp.next;
         }
 
-        if (curr == null) {
-            System.out.println("Member not found.");
+        // Not found
+        if (temp.next == null) {
+            System.out.println("Member not found!");
         } else {
-            prev.next = curr.next;
-            System.out.println("Member deleted!");
+            // Skip the node
+            temp.next = temp.next.next;
+            System.out.println("Member deleted successfully!");
         }
     }
 
@@ -166,7 +168,7 @@ public class Assignment_02 {
                 case 1 -> club.create();
                 case 2 -> club.insert_node();
                 case 3 -> club.display();
-                case 4 -> club.delet_node();
+                case 4 -> club.delete_node();
                 case 5 -> club.update();
                 case 6 -> System.out.println("Bye!");
                 default -> System.out.println("Invalid option!");

@@ -218,7 +218,11 @@ class Playlist {
         }
 
         if (current == temp) {
-            current = (temp.next != null) ? temp.next : temp.prev;
+            if (temp.next != null) {
+                current = temp.next; // move to the next song
+            } else {
+                current = temp.prev; // no next, so move to previous
+            }
         }
 
         System.out.println("Song deleted successfully!");

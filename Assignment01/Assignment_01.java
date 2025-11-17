@@ -162,17 +162,32 @@ class Library {
     }
 
     // Insertion Sort
+
     void insertionSort() {
-        for (int i = 1; i < count; i++) {
-            Book key = theBooks[i];
-            int j = i - 1;
-            while (j >= 0 && theBooks[j].ISBNNo > key.ISBNNo) {
-                theBooks[j + 1] = theBooks[j];
-                j--;
+        for (int i = 0; i < count - 1; i++) {
+            for (int j = i + 1; j > 0; j--) {
+                if (theBooks[j].ISBNNo < theBooks[j - 1].ISBNNo) {
+                    Book temp = theBooks[j];
+                    theBooks[j] = theBooks[j - 1];
+                    theBooks[j - 1] = temp;
+                } else {
+                    break;
+                }
             }
-            theBooks[j + 1] = key;
         }
     }
+
+    // void insertionSort() {
+    // for (int i = 1; i < count; i++) {
+    // Book key = theBooks[i];
+    // int j = i - 1;
+    // while (j >= 0 && theBooks[j].ISBNNo > key.ISBNNo) {
+    // theBooks[j + 1] = theBooks[j];
+    // j--;
+    // }
+    // theBooks[j + 1] = key;
+    // }
+    // }
 
     // Quick Sort
     void quickSort(int low, int high) {
