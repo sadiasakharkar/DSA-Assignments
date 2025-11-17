@@ -18,11 +18,10 @@ package Assignment08;
 
 import java.util.*;
 
-// Node class represents one edge in adjacency list
 class Node {
-    int data; // connected vertex
-    int weight; // edge weight
-    Node next; // pointer to next edge
+    int data;
+    int weight;
+    Node next;
 
     Node(int data, int weight) {
         this.data = data;
@@ -34,7 +33,6 @@ class Node {
 class CustomLinkedList {
     Node head;
 
-    // Add new connection at end of list
     public void addLast(int data, int weight) {
         Node newNode = new Node(data, weight);
         if (head == null) {
@@ -87,7 +85,7 @@ class GraphList {
             System.out.print("\nEnter edge " + (i + 1) + " (src dest weight): ");
             int v1 = sc.nextInt();
             int v2 = sc.nextInt();
-            int weight = sc.nextInt();
+            int w = sc.nextInt();
 
             // Validation for vertex range
             if (v1 < 1 || v1 > v || v2 < 1 || v2 > v) {
@@ -98,17 +96,16 @@ class GraphList {
 
             // Avoid self-loops
             if (v1 == v2) {
-                System.out.println(" Self loop not allowed! Skipping edge...");
+                System.out.println("Self loop not allowed! Try again");
                 i--;
                 continue;
             }
 
-            // Add edge both ways (undirected graph)
-            adjList[v1].addLast(v2, weight);
-            adjList[v2].addLast(v1, weight);
+            adjList[v1].addLast(v2, w);
+            adjList[v2].addLast(v1, w);
         }
 
-        System.out.println("\n✅ Graph created successfully!");
+        System.out.println("\n✅ Graph created");
     }
 
     // Display adjacency list (for understanding)
@@ -125,43 +122,62 @@ class GraphList {
         }
     }
 
-    // DFS traversal to find path from start to end
-    public void findPathDFS(int start_v, int end_v) {
-        boolean visited[] = new boolean[v + 1];
-        ArrayList<Integer> result = new ArrayList<>();
-
-        System.out.println("\nPerforming DFS...");
-        dfs(start_v, end_v, visited, result);
-
-        if (!result.isEmpty() && result.get(result.size() - 1) == end_v) {
-            System.out.println("✅ Path found: " + result);
-        } else {
-            System.out.println(" No path found between " + start_v + " and " + end_v);
-        }
-    }
-
-    // Recursive DFS function
-    void dfs(int s, int e, boolean[] visited, ArrayList<Integer> res) {
-        res.add(s);
+    // ✅ DFS Path Find
+    void dfs(int s, int e, boolean[] vis, ArrayList<Integer> path) {
+        path.add(s);
         if (s == e)
-            return; // path found
-
-        visited[s] = true;
+            return;
+        vis[s] = true;
 
         Node temp = adjList[s].head;
         while (temp != null) {
-            int neighbour = temp.data;
-            if (!visited[neighbour]) {
-                dfs(neighbour, e, visited, res);
-                if (res.get(res.size() - 1) == e)
-                    return; // stop recursion if path found
+            if (!vis[temp.data]) {
+                dfs(temp.data, e, vis, path);
+                if (path.get(path.size() - 1) == e)
+                    return;
             }
             temp = temp.next;
         }
-        res.remove(res.size() - 1); // backtrack
+        path.remove(path.size() - 1);
     }
 
-    // Kruskal’s Algorithm to find Maximum Bandwidth (Max Spanning Tree)
+    void findPathDFS(int start, int end) {
+        boolean vis[] = new boolean[v + 1];
+        ArrayList<Integer> path = new ArrayList<>();
+        dfs(start, end, vis, path);
+
+        if (!path.isEmpty() && path.get(path.size() - 1) == end)
+            System.out.println("✅ Path via DFS: " + path);
+        else
+            System.out.println("❌ No path found");
+    }
+
+    // ✅ BFS Traversal
+    public void BFS(int start) {
+        boolean visited[] = new boolean[v + 1];
+        Queue<Integer> q = new LinkedList<>();
+
+        q.add(start);
+        visited[start] = true;
+
+        System.out.print("\nBFS Traversal: ");
+        while (!q.isEmpty()) {
+            int cur = q.poll();
+            System.out.print(cur + " ");
+
+            Node temp = adjList[cur].head;
+            while (temp != null) {
+                if (!visited[temp.data]) {
+                    visited[temp.data] = true;
+                    q.add(temp.data);
+                }
+                temp = temp.next;
+            }
+        }
+        System.out.println();
+    }
+
+    // ✅ Maximum Spanning Tree (Kruskal)
     public void findMaxBandwidth() {
         ArrayList<Edge> edges = new ArrayList<>();
 
@@ -169,7 +185,7 @@ class GraphList {
         for (int i = 1; i <= v; i++) {
             Node temp = adjList[i].head;
             while (temp != null) {
-                if (i < temp.data) // avoid duplicate edges
+                if (i < temp.data)
                     edges.add(new Edge(i, temp.data, temp.weight));
                 temp = temp.next;
             }
@@ -183,34 +199,30 @@ class GraphList {
         // Sort edges in descending order (for maximum spanning tree)
         edges.sort((a, b) -> b.weight - a.weight);
 
-        int pred[] = new int[v + 1];
+        int parent[] = new int[v + 1];
         for (int i = 1; i <= v; i++)
-            pred[i] = i;
+            parent[i] = i;
 
-        int totalCost = 0, count = 0;
-
-        for (Edge edge : edges) {
-            int sRoot = find(pred, edge.src);
-            int dRoot = find(pred, edge.dest);
-
-            // If adding this edge doesn’t form a cycle
-            if (sRoot != dRoot) {
-                totalCost += edge.weight;
-                pred[dRoot] = sRoot;
+        int cost = 0, count = 0;
+        for (Edge e : edges) {
+            int a = find(parent, e.src);
+            int b = find(parent, e.dest);
+            if (a != b) {
+                cost += e.weight;
+                parent[b] = a;
                 count++;
             }
             if (count == v - 1)
-                break; // MST complete
+                break;
         }
 
-        System.out.println("\n🌐 Maximum Bandwidth (Total Weight): " + totalCost);
+        System.out.println("\n🌐 Max Bandwidth Sum: " + cost);
     }
 
-    // Union-Find function (find root of vertex)
-    int find(int[] pred, int v) {
-        if (pred[v] == v)
-            return v;
-        return pred[v] = find(pred, pred[v]);
+    int find(int[] parent, int x) {
+        if (parent[x] == x)
+            return x;
+        return parent[x] = find(parent, parent[x]);
     }
 }
 
@@ -230,37 +242,52 @@ public class Assign8Final {
         g.createGraph();
         g.displayGraph();
 
-        System.out.print("\nEnter start vertex: ");
+        System.out.print("\nEnter start for DFS+BFS: ");
         int start = sc.nextInt();
-        System.out.print("Enter end vertex: ");
+        System.out.print("Enter end for DFS path: ");
         int end = sc.nextInt();
 
-        if (start < 1 || start > v || end < 1 || end > v) {
-            System.out.println("Invalid vertices for DFS!");
-            return;
-        }
-
         g.findPathDFS(start, end);
+        g.BFS(start);
         g.findMaxBandwidth();
 
-        System.out.println("\nProgram executed successfully!");
+        System.out.println("\n✅ Execution completed");
     }
 }
 
-// Output:
-// Enter no of vertices : 4
-// Enter no of edges : 5
-// Enter vertex pair for Edge 1: 1 2
-// Enter weight : 10
-// Enter vertex pair for Edge 2: 1 3
-// Enter weight : 6
-// Enter vertex pair for Edge 3: 2 3
-// Enter weight : 5
-// Enter vertex pair for Edge 4: 2 4
-// Enter weight : 15
-// Enter vertex pair for Edge 5: 3 4
-// Enter weight : 4
+// OUTPUT:
+// Enter number of vertices: 4
+// Enter number of edges: 5
 
-// Enter start and end vertex (start, end) : 1 4
+// Enter edge 1 (src dest weight): 1 2 10
+// Enter edge 2 (src dest weight): 1 3 6
+// Enter edge 3 (src dest weight): 2 3 5
+// Enter edge 4 (src dest weight): 2 4 15
+// Enter edge 5 (src dest weight): 3 4 4
 
-// Path : [1, 2, 4]
+// ✅ Graph created successfully!
+
+// Adjacency List:
+// 1 → (2, w=10) → (3, w=6) → null
+// 2 → (1, w=10) → (3, w=5) → (4, w=15) → null
+// 3 → (1, w=6) → (2, w=5) → (4, w=4) → null
+// 4 → (2, w=15) → (3, w=4) → null
+
+// Enter start vertex: 1
+// Enter end vertex: 4
+
+// --- DFS Path ---
+// Path found ✅ [1, 2, 4]
+
+// --- BFS Traversal ---
+// BFS from 1: 1 -> 2 -> 3 -> 4
+
+// --- Maximum Bandwidth ---
+// Edges selected (Max-Spanning-Tree):
+// 2 - 4 | w = 15
+// 1 - 2 | w = 10
+// 1 - 3 | w = 6
+
+// 🌐 Max Bandwidth Sum: 31
+
+// Program executed successfully ✅

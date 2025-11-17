@@ -3,43 +3,52 @@ package Assignment04;
 import java.util.*;
 
 class SubsetSum {
-    public boolean isSubsetSum(int arr[], int idx, int sum) {
-        // is an integer tracking the current array position in the recursion,
-        // starting from the last element and decreasing by 1 each step until all
-        // elements are checked.
-        // sum is the remaining target sum we want to achieve.
 
+    public boolean isSubsetSum(int arr[], int idx, int sum) {
+
+        // If we checked everything and sum is still not 0 → not possible
         if (idx == -1 && sum != 0) {
             return false;
         }
+
+        // If sum becomes 0 anytime → we found a valid subset
         if (sum == 0) {
             return true;
         }
 
-        // include current array element
+        // Try taking the current element
         boolean included = isSubsetSum(arr, idx - 1, sum - arr[idx]);
-        // exclude current array element
+
+        // Try NOT taking the current element
         boolean notIncluded = isSubsetSum(arr, idx - 1, sum);
+
+        // If any path is true → subset exists
         return included || notIncluded;
     }
 
     public void printAllSubsets(ArrayList<Integer> list, int arr[], int idx, int sum) {
+
+        // If nothing left to check and sum not completed → stop
         if (idx == -1 && sum != 0) {
             return;
         }
+
+        // If sum hits 0 → whatever is in list is one valid subset → print it
         if (sum == 0) {
             System.out.println(list);
             return;
         }
 
-        // include current element
+        // Include current element in the list
         list.add(arr[idx]);
+
+        // Move to next element with reduced sum
         printAllSubsets(list, arr, idx - 1, sum - arr[idx]);
 
-        // backtrack
+        // Remove the last element (backtracking)
         list.remove(list.size() - 1);
 
-        // exclude current element
+        // Try excluding the current element
         printAllSubsets(list, arr, idx - 1, sum);
     }
 }
@@ -47,10 +56,12 @@ class SubsetSum {
 public class AssignmentFour {
 
     public static void main(String[] args) {
+
         Scanner sc = new Scanner(System.in);
 
         System.out.print("Enter size of array: ");
         int n = sc.nextInt();
+
         int[] arr = new int[n];
 
         System.out.println("Enter elements of array:");
@@ -62,13 +73,17 @@ public class AssignmentFour {
         int sum = sc.nextInt();
 
         SubsetSum obj = new SubsetSum();
+
+        // Start checking from last index of array
         int idx = arr.length - 1;
 
+        // Check if ANY subset exists
         boolean exists = obj.isSubsetSum(arr, idx, sum);
         System.out.println("Subset exists? " + exists);
 
+        // If yes → print all the subsets that make the sum
         if (exists) {
-            System.out.println("One or more subsets that sum to " + sum + ":");
+            System.out.println("Subsets that sum to " + sum + ":");
             obj.printAllSubsets(new ArrayList<>(), arr, idx, sum);
         }
 

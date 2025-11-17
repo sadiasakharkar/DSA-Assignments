@@ -87,6 +87,18 @@ class Binary {
         inorder(root);
     }
 
+    // Search for a node by keyword
+    Node searchNode(Node root, String key) {
+        if (root == null)
+            return null;
+        if (key.equalsIgnoreCase(root.word))
+            return root;
+        if (key.compareToIgnoreCase(root.word) < 0)
+            return searchNode(root.left, key);
+        else
+            return searchNode(root.right, key);
+    }
+
     // Search for a keyword
     void search() {
         if (root == null) {
@@ -101,17 +113,6 @@ class Binary {
         } else {
             System.out.println("Meaning: " + res.meaning);
         }
-    }
-
-    Node searchNode(Node root, String key) {
-        if (root == null)
-            return null;
-        if (key.equalsIgnoreCase(root.word))
-            return root;
-        if (key.compareToIgnoreCase(root.word) < 0)
-            return searchNode(root.left, key);
-        else
-            return searchNode(root.right, key);
     }
 
     // Update meaning of a keyword
@@ -149,7 +150,7 @@ class Binary {
         } else if (key.compareToIgnoreCase(root.word) > 0) {
             root.right = deleteNode(root.right, key);
         } else {
-            // Found node to delete
+            // Found node to delete NN
             if (root.left == null && root.right == null) {
                 // Leaf node
                 root = null;

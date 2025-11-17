@@ -1,12 +1,10 @@
 package Assignment09;
 
 // Name: Sadia Sakharkar
-// Roll No: UCE2025002
+// Roll No: UCE2025002c
 // Batch: A4
 // Assignment 09
 
-// The provided code is a Java program that implements a mobile phone contact list. It allows users to
-// perform the following operations:
 // Problem Statement: Design mobile phone contact list which stores name and contact number in ascending order.
 // Develop a code to search a particular contact details of specified name, insert new contact and
 // delete particular contact from list
@@ -28,14 +26,16 @@ class Contact {
 }
 
 class ContactList {
-    Scanner sc;
+    Scanner sc = new Scanner(System.in);
+
     private static final Contact DELETED = new Contact(-1, "DELETED", ""); // marker, special dummy object
+
     int size;
     Contact[] hashTable;
 
-    ContactList(int n) {
-        this.size = n;
-        this.sc = new Scanner(System.in);
+    ContactList(int s) {
+        this.size = s;
+        // this.sc = new Scanner(System.in);
         hashTable = new Contact[size];
     }
 
