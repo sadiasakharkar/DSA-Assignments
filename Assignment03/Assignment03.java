@@ -78,25 +78,28 @@ class Playlist {
             return;
         }
 
-        // Empty list handling
+        // Case 1: Empty list
         if (head == null) {
-            if (pos > 0) { // can't insert at position > 0 if list is empty
+            if (pos > 0) {
                 System.out.println("Invalid position, list is empty!");
                 return;
-            } else { // insert at head
+            } else {
                 head = tail = current = newSong;
-                head.next = head.prev = head; // for circular DLL
+                newSong.next = null;
+                newSong.prev = null;
                 System.out.println("Song added as the first song!");
                 return;
             }
         }
 
+        // Case 2: Insert at head
         // Insert at beginning
         if (pos == 0) {
             insertFirst(id, name, artist);
             return;
         }
 
+        // Case 3: Insert at any middle position(at specific index)
         // Traverse to position - 1
         Node ptr = head;
         for (int i = 0; i < pos - 1; i++) {
