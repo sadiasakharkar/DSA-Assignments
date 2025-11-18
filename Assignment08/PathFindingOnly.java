@@ -30,16 +30,6 @@ class CustomLinkedList {
     }
 }
 
-class Edge {
-    int src, dest, weight;
-
-    Edge(int s, int d, int w) {
-        src = s;
-        dest = d;
-        weight = w;
-    }
-}
-
 class GraphList {
     int v;
     CustomLinkedList adjList[];
@@ -69,50 +59,65 @@ class GraphList {
         System.out.println("\nGraph created");
     }
 
-    int find(int parent[], int x) {
-        if (parent[x] == x)
-            return x;
-        return parent[x] = find(parent, parent[x]);
+    // dfs path
+    void dfs(int s, int e, boolean[] vis, ArrayList<Integer> path) {
+        path.add(s);
+        if (s == e)
+            return;
+        vis[s] = true;
+
+        Node temp = adjList[s].head;
+        while (temp != null) {
+            if (!vis[temp.data]) {
+                dfs(temp.data, e, vis, path);
+                if (!path.isEmpty() && path.get(path.size() - 1) == e)
+                    return;
+            }
+            temp = temp.next;
+        }
+        path.remove(path.size() - 1);
     }
 
-    public void findMaxBandwidth() {
-        ArrayList<Edge> edges = new ArrayList<>();
+    void findPathDFS(int start, int end) {
+        boolean vis[] = new boolean[v + 1];
+        ArrayList<Integer> path = new ArrayList<>();
+        dfs(start, end, vis, path);
 
-        for (int i = 1; i <= v; i++) {
-            Node temp = adjList[i].head;
-            while (temp != null) {
-                if (i < temp.data)
-                    edges.add(new Edge(i, temp.data, temp.weight));
-                temp = temp.next;
-            }
-        }
-
-        edges.sort((a, b) -> b.weight - a.weight);
-
-        int parent[] = new int[v + 1];
-        for (int i = 1; i <= v; i++)
-            parent[i] = i;
-
-        int cost = 0, count = 0;
-
-        for (Edge e : edges) {
-            int a = find(parent, e.src);
-            int b = find(parent, e.dest);
-
-            if (a != b) {
-                parent[b] = a;
-                cost += e.weight;
-                count++;
-            }
-            if (count == v - 1)
-                break;
-        }
-
-        System.out.println("Max Bandwidth Sum: " + cost);
+        if (!path.isEmpty() && path.get(path.size() - 1) == end)
+            System.out.println("Path: " + path);
+        else
+            System.out.println("No path found");
     }
+
+    // bfs is here but fully commented
+    /*
+     * public void BFS(int start) {
+     * boolean visited[] = new boolean[v + 1];
+     * Queue<Integer> q = new LinkedList<>();
+     * 
+     * q.add(start);
+     * visited[start] = true;
+     * 
+     * System.out.print("BFS: ");
+     * while (!q.isEmpty()) {
+     * int cur = q.poll();
+     * System.out.print(cur + " ");
+     * 
+     * Node temp = adjList[cur].head;
+     * while (temp != null) {
+     * if (!visited[temp.data]) {
+     * visited[temp.data] = true;
+     * q.add(temp.data);
+     * }
+     * temp = temp.next;
+     * }
+     * }
+     * System.out.println();
+     * }
+     */
 }
 
-public class MaxBandwidthOnly {
+public class PathFindingOnly {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
 
@@ -121,7 +126,16 @@ public class MaxBandwidthOnly {
 
         GraphList g = new GraphList(v);
         g.createGraph();
-        g.findMaxBandwidth();
+
+        System.out.print("Enter start: ");
+        int start = sc.nextInt();
+        System.out.print("Enter end: ");
+        int end = sc.nextInt();
+
+        g.findPathDFS(start, end);
+
+        // bfs call commented as requested
+        // g.BFS(start);
     }
 }
 
@@ -135,5 +149,8 @@ public class MaxBandwidthOnly {
 // Enter edge 4 (src dest weight): 2 4 15
 // Enter edge 5 (src dest weight): 3 4 4
 
+// Enter start: 1
+// Enter end: 4
+
 // Graph created
-// Max Bandwidth Sum: 31
+// Path: [1, 2, 4]
