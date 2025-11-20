@@ -15,7 +15,7 @@ class Contact {
     }
 }
 
-class ContactList_LPR { // LPR = Linear Probing With Replacement
+class ContactList_LPR {
     private static final Contact DELETED = new Contact(-1, "DELETED", "");
     int size;
     Contact[] hashTable;
@@ -54,7 +54,6 @@ class ContactList_LPR { // LPR = Linear Probing With Replacement
         return false;
     }
 
-    // 💥 Linear Probing WITH Replacement
     public void create() {
         Scanner sc = new Scanner(System.in);
 
@@ -69,19 +68,19 @@ class ContactList_LPR { // LPR = Linear Probing With Replacement
         String email = sc.nextLine().trim();
 
         if (!isValidName(name)) {
-            System.out.println("❌ Invalid name!");
+            System.out.println("Invalid name");
             return;
         }
         if (!isValidMobile(num)) {
-            System.out.println("❌ Invalid mobile number (10 digits)");
+            System.out.println("Invalid mobile number");
             return;
         }
         if (!isValidEmail(email)) {
-            System.out.println("❌ Invalid email format!");
+            System.out.println("Invalid email format");
             return;
         }
         if (exists(num)) {
-            System.out.println("⚠️ Contact with this number already exists!");
+            System.out.println("Contact with this number already exists");
             return;
         }
 
@@ -94,26 +93,25 @@ class ContactList_LPR { // LPR = Linear Probing With Replacement
             int existingHash = hash(existingKey);
 
             if (existingHash != index) {
-                // Replace logic 💡
-                System.out.println("🔄 Replacing contact at index " + index + " for better placement");
+                System.out.println("Replacing contact at index " + index);
 
                 Contact temp = hashTable[index];
                 hashTable[index] = newCon;
-                newCon = temp; // reinserting displaced one
+                newCon = temp;
                 num = newCon.mobile_no;
                 index = hash(num);
                 startIndex = index;
             } else {
                 index = (index + 1) % size;
                 if (index == startIndex) {
-                    System.out.println("⚠️ Hash table full! Cannot insert contact");
+                    System.out.println("Hash table full. Cannot insert contact");
                     return;
                 }
             }
         }
 
         hashTable[index] = newCon;
-        System.out.println("✅ Contact stored at index " + index);
+        System.out.println("Contact stored at index " + index);
     }
 
     public void search_by_name() {
@@ -130,7 +128,7 @@ class ContactList_LPR { // LPR = Linear Probing With Replacement
             }
         }
         if (!found)
-            System.out.println("❌ Contact not found");
+            System.out.println("Contact not found");
     }
 
     public void search() {
@@ -152,7 +150,7 @@ class ContactList_LPR { // LPR = Linear Probing With Replacement
             if (index == startIndex)
                 break;
         }
-        System.out.println("❌ Contact not found");
+        System.out.println("Contact not found");
     }
 
     void delete() {
@@ -166,18 +164,18 @@ class ContactList_LPR { // LPR = Linear Probing With Replacement
         while (hashTable[index] != null) {
             if (hashTable[index] != DELETED && hashTable[index].mobile_no == number) {
                 hashTable[index] = DELETED;
-                System.out.println("✅ Contact deleted!");
+                System.out.println("Contact deleted");
                 return;
             }
             index = (index + 1) % size;
             if (index == startIndex)
                 break;
         }
-        System.out.println("❌ Contact not found!");
+        System.out.println("Contact not found");
     }
 
     void display() {
-        System.out.println("\n======= HASH TABLE CONTENTS =======");
+        System.out.println("\nHASH TABLE CONTENTS");
         System.out.printf("%-8s | %-15s | %-12s | %-20s%n", "Index", "Name", "Mobile No", "Email");
         System.out.println("-----------------------------------------------------------------------");
 
@@ -204,7 +202,7 @@ public class Assign9_LPR {
         int choice;
 
         do {
-            System.out.println("\n===== MENU =====");
+            System.out.println("\nMENU");
             System.out.println("1. INSERT");
             System.out.println("2. DISPLAY");
             System.out.println("3. SEARCH BY NAME");
@@ -222,8 +220,8 @@ public class Assign9_LPR {
                 case 3 -> t.search_by_name();
                 case 4 -> t.search();
                 case 5 -> t.delete();
-                case 0 -> System.out.println("👋 Bye bye!");
-                default -> System.out.println("❌ Invalid choice!");
+                case 0 -> System.out.println("Bye");
+                default -> System.out.println("Invalid choice");
             }
 
         } while (choice != 0);

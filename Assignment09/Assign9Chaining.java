@@ -64,11 +64,11 @@ class ContactListChaining {
         String email = sc.nextLine();
 
         if (!validName(name) || !validMobile(number) || !validEmail(email)) {
-            System.out.println("❌ Invalid input");
+            System.out.println("Invalid input");
             return;
         }
         if (exists(number)) {
-            System.out.println("⚠️ Contact already exists");
+            System.out.println("Contact already exists");
             return;
         }
 
@@ -78,7 +78,7 @@ class ContactListChaining {
         newCon.next = table[index];
         table[index] = newCon;
 
-        System.out.println("✅ Inserted at bucket " + index);
+        System.out.println("Inserted at bucket " + index);
     }
 
     public void searchNumber() {
@@ -91,12 +91,12 @@ class ContactListChaining {
 
         while (temp != null) {
             if (temp.mobile_no == number) {
-                System.out.println("✅ Found: " + temp.name + " | " + temp.mobile_no + " | " + temp.email);
+                System.out.println("Found: " + temp.name + " | " + temp.mobile_no + " | " + temp.email);
                 return;
             }
             temp = temp.next;
         }
-        System.out.println("❌ Not found");
+        System.out.println("Not found");
     }
 
     public void searchName() {
@@ -108,13 +108,13 @@ class ContactListChaining {
             Contact temp = table[i];
             while (temp != null) {
                 if (temp.name.equalsIgnoreCase(name)) {
-                    System.out.println("✅ Found: " + temp.name + " | " + temp.mobile_no + " | " + temp.email);
+                    System.out.println("Found: " + temp.name + " | " + temp.mobile_no + " | " + temp.email);
                     return;
                 }
                 temp = temp.next;
             }
         }
-        System.out.println("❌ Not found");
+        System.out.println("Not found");
     }
 
     public void delete() {
@@ -133,13 +133,13 @@ class ContactListChaining {
                 else
                     prev.next = temp.next;
 
-                System.out.println("✅ Deleted");
+                System.out.println("Deleted");
                 return;
             }
             prev = temp;
             temp = temp.next;
         }
-        System.out.println("❌ Not found");
+        System.out.println("Not found");
     }
 
     public void display() {
@@ -181,8 +181,8 @@ public class Assign9Chaining {
                 case 3 -> ch.searchName();
                 case 4 -> ch.searchNumber();
                 case 5 -> ch.delete();
-                case 0 -> System.out.println("👋 done");
-                default -> System.out.println("❌ wrong choice");
+                case 0 -> System.out.println("done");
+                default -> System.out.println("wrong choice");
             }
         } while (c != 0);
     }

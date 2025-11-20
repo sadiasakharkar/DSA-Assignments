@@ -30,7 +30,6 @@ class ContactListDoubleHash {
 
     int hash2(long key) {
         return 7 - (int) (Math.abs(key % 7));
-        // second hash step. You can change 7 -> prime < table size
     }
 
     private boolean validName(String name) {
@@ -75,11 +74,11 @@ class ContactListDoubleHash {
         String email = sc.nextLine();
 
         if (!validName(name) || !validMobile(num) || !validEmail(email)) {
-            System.out.println("❌ Invalid input");
+            System.out.println("Invalid input");
             return;
         }
         if (exists(num)) {
-            System.out.println("⚠️ Contact already exists");
+            System.out.println("Contact already exists");
             return;
         }
 
@@ -93,13 +92,13 @@ class ContactListDoubleHash {
             int pos = (h1 + i * h2) % size;
             if (table[pos] == null || table[pos] == DELETED) {
                 table[pos] = c;
-                System.out.println("✅ Inserted at " + pos);
+                System.out.println("Inserted at " + pos);
                 return;
             }
-            System.out.println("Collision at " + pos + " → step: " + i);
+            System.out.println("Collision at " + pos + " step: " + i);
             i++;
         }
-        System.out.println("❌ Table full");
+        System.out.println("Table full");
     }
 
     public void searchNumber() {
@@ -117,12 +116,12 @@ class ContactListDoubleHash {
                 break;
             if (table[pos] != DELETED && table[pos].mobile_no == number) {
                 Contact c = table[pos];
-                System.out.println("✅ Found: " + c.name + " | " + c.mobile_no + " | " + c.email);
+                System.out.println("Found: " + c.name + " | " + c.mobile_no + " | " + c.email);
                 return;
             }
             i++;
         }
-        System.out.println("❌ Not found");
+        System.out.println("Not found");
     }
 
     public void searchName() {
@@ -132,11 +131,11 @@ class ContactListDoubleHash {
 
         for (Contact c : table) {
             if (c != null && c != DELETED && c.name.equalsIgnoreCase(name)) {
-                System.out.println("✅ Found: " + c.name + " | " + c.mobile_no + " | " + c.email);
+                System.out.println("Found: " + c.name + " | " + c.mobile_no + " | " + c.email);
                 return;
             }
         }
-        System.out.println("❌ Not found");
+        System.out.println("Not found");
     }
 
     public void delete() {
@@ -155,12 +154,12 @@ class ContactListDoubleHash {
 
             if (table[pos] != DELETED && table[pos].mobile_no == number) {
                 table[pos] = DELETED;
-                System.out.println("✅ Deleted");
+                System.out.println("Deleted");
                 return;
             }
             i++;
         }
-        System.out.println("❌ Not found");
+        System.out.println("Not found");
     }
 
     public void display() {
@@ -198,8 +197,8 @@ public class Assign9DoubleHash {
                 case 3 -> d.searchName();
                 case 4 -> d.searchNumber();
                 case 5 -> d.delete();
-                case 0 -> System.out.println("👋 Done");
-                default -> System.out.println("❌ Invalid");
+                case 0 -> System.out.println("Done");
+                default -> System.out.println("Invalid");
             }
         } while (ch != 0);
     }

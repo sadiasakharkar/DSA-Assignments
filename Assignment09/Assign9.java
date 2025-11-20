@@ -1,7 +1,6 @@
 package Assignment09;
 
 // Name: Sadia Sakharkar
-// Roll No: UCE2025002c
 // Batch: A4
 // Assignment 09
 
@@ -28,23 +27,20 @@ class Contact {
 class ContactList {
     Scanner sc = new Scanner(System.in);
 
-    private static final Contact DELETED = new Contact(-1, "DELETED", ""); // marker, special dummy object
+    private static final Contact DELETED = new Contact(-1, "DELETED", "");
 
     int size;
     Contact[] hashTable;
 
     ContactList(int s) {
         this.size = s;
-        // this.sc = new Scanner(System.in);
         hashTable = new Contact[size];
     }
 
-    // Simple hash function based on mobile number
     int hash(long key) {
         return (int) (Math.abs(key % size));
     }
 
-    // Validate name, mobile, email
     private boolean isValidName(String name) {
         return name != null && !name.trim().isEmpty();
     }
@@ -53,16 +49,10 @@ class ContactList {
         return String.valueOf(num).matches("\\d{10}");
     }
 
-    // private boolean isValidMobile(long num) {
-    // String s = String.valueOf(num);
-    // return s.length() == 10;
-    // }
-
     private boolean isValidEmail(String email) {
         return email.matches("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
     }
 
-    // Check if number already exists
     private boolean exists(long number) {
         int index = hash(number);
         int start = index;
@@ -76,9 +66,7 @@ class ContactList {
         return false;
     }
 
-    // Insert contact with validation and duplicate check
     public void create() {
-        // Scanner sc = new Scanner(System.in);
 
         System.out.print("Enter Name: ");
         String name = sc.nextLine().trim();
@@ -90,21 +78,20 @@ class ContactList {
         System.out.print("Enter Email ID: ");
         String email = sc.nextLine().trim();
 
-        // Validate
         if (!isValidName(name)) {
-            System.out.println("❌ Invalid name!");
+            System.out.println("Invalid name.");
             return;
         }
         if (!isValidMobile(num)) {
-            System.out.println("❌ Invalid mobile number (must be 10 digits).");
+            System.out.println("Invalid mobile number (must be 10 digits).");
             return;
         }
         if (!isValidEmail(email)) {
-            System.out.println("❌ Invalid email format!");
+            System.out.println("Invalid email format.");
             return;
         }
         if (exists(num)) {
-            System.out.println("⚠️ Contact with this number already exists!");
+            System.out.println("Contact with this number already exists.");
             return;
         }
 
@@ -118,9 +105,9 @@ class ContactList {
             int oldIndex = index;
             index = (index + 1) % size;
 
-            System.out.println("⚠️ Collision at index " + oldIndex + " → trying next slot...");
+            System.out.println("Collision at index " + oldIndex + " → trying next slot...");
             if (index == startIndex) {
-                System.out.println("⚠️ Hash table full! Cannot insert contact.");
+                System.out.println("Hash table full. Cannot insert contact.");
                 return;
             }
         }
@@ -128,15 +115,13 @@ class ContactList {
         hashTable[index] = newCon;
 
         if (collision) {
-            System.out.println("✅ Collision resolved. Contact stored at index " + index);
+            System.out.println("Collision resolved. Contact stored at index " + index);
         } else {
-            System.out.println("✅ Contact inserted at index " + index);
+            System.out.println("Contact inserted at index " + index);
         }
     }
 
-    // Search by name
     public void search_by_name() {
-        // Scanner sc = new Scanner(System.in);
         System.out.print("Enter name to search: ");
         String name = sc.nextLine();
 
@@ -149,12 +134,10 @@ class ContactList {
             }
         }
         if (!found)
-            System.out.println("Contact not found!");
+            System.out.println("Contact not found.");
     }
 
-    // Search by number
     public void search() {
-        // Scanner sc = new Scanner(System.in);
         System.out.print("Enter number to search: ");
         long number = sc.nextLong();
 
@@ -172,12 +155,10 @@ class ContactList {
             if (index == startIndex)
                 break;
         }
-        System.out.println("Contact not found!");
+        System.out.println("Contact not found.");
     }
 
-    // Delete contact by number (use DELETED marker)
     void delete() {
-        // Scanner sc = new Scanner(System.in);
         System.out.print("Enter number to delete: ");
         long number = sc.nextLong();
 
@@ -187,17 +168,16 @@ class ContactList {
         while (hashTable[index] != null) {
             if (hashTable[index] != DELETED && hashTable[index].mobile_no == number) {
                 hashTable[index] = DELETED;
-                System.out.println("✅ Contact deleted!");
+                System.out.println("Contact deleted.");
                 return;
             }
             index = (index + 1) % size;
             if (index == startIndex)
                 break;
         }
-        System.out.println("Contact not found!");
+        System.out.println("Contact not found.");
     }
 
-    // Display all contacts with index table
     void display() {
         System.out.println("\n======= HASH TABLE CONTENTS =======");
         System.out.printf("%-8s | %-15s | %-12s | %-20s%n", "Index", "Name", "Mobile No", "Email");
@@ -208,7 +188,7 @@ class ContactList {
             if (c == null)
                 System.out.printf("%-8d | %-15s | %-12s | %-20s%n", i, "NULL", "-", "-");
             else if (c == DELETED)
-                System.out.printf("%-8d | %-15s | %-12s | %-20s%n", i, "<DELETED>", "-", "-");
+                System.out.printf("%-8d | %-15s | %-12s | %-20s%n", i, "DELETED", "-", "-");
             else
                 System.out.printf("%-8d | %-15s | %-12d | %-20s%n", i, c.name, c.mobile_no, c.email);
         }
@@ -244,8 +224,8 @@ public class Assign9 {
                 case 3 -> t.search_by_name();
                 case 4 -> t.search();
                 case 5 -> t.delete();
-                case 0 -> System.out.println("👋 Goodbye!");
-                default -> System.out.println("❌ Invalid choice!");
+                case 0 -> System.out.println("Goodbye.");
+                default -> System.out.println("Invalid choice.");
             }
 
         } while (choice != 0);

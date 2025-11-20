@@ -67,11 +67,11 @@ class ContactListQuadratic {
         String email = sc.nextLine().trim();
 
         if (!validName(name) || !validMobile(num) || !validEmail(email)) {
-            System.out.println("Invalid input ❌");
+            System.out.println("Invalid input");
             return;
         }
         if (exists(num)) {
-            System.out.println("Contact already exists ⚠️");
+            System.out.println("Contact already exists");
             return;
         }
 
@@ -84,14 +84,14 @@ class ContactListQuadratic {
             int pos = (index + i * i) % size;
             if (table[pos] == null || table[pos] == DELETED) {
                 table[pos] = c;
-                System.out.println("✅ Inserted at index " + pos);
+                System.out.println("Inserted at index " + pos);
                 return;
             }
-            System.out.println("Collision at " + pos + " → Quadratic step " + i);
+            System.out.println("Collision at " + pos + " Quadratic step " + i);
             i++;
         }
 
-        System.out.println("Table full ❌");
+        System.out.println("Table full");
     }
 
     public void searchNumber() {
@@ -109,12 +109,12 @@ class ContactListQuadratic {
 
             if (table[pos] != DELETED && table[pos].mobile_no == number) {
                 Contact c = table[pos];
-                System.out.println("Found ✅ " + c.name + " | " + c.mobile_no + " | " + c.email);
+                System.out.println("Found " + c.name + " | " + c.mobile_no + " | " + c.email);
                 return;
             }
             i++;
         }
-        System.out.println("Not found ❌");
+        System.out.println("Not found");
     }
 
     public void searchName() {
@@ -124,11 +124,11 @@ class ContactListQuadratic {
 
         for (Contact c : table) {
             if (c != null && c != DELETED && c.name.equalsIgnoreCase(name)) {
-                System.out.println("Found ✅ " + c.name + " | " + c.mobile_no + " | " + c.email);
+                System.out.println("Found " + c.name + " | " + c.mobile_no + " | " + c.email);
                 return;
             }
         }
-        System.out.println("Not found ❌");
+        System.out.println("Not found");
     }
 
     public void delete() {
@@ -147,12 +147,12 @@ class ContactListQuadratic {
 
             if (table[pos] != DELETED && table[pos].mobile_no == number) {
                 table[pos] = DELETED;
-                System.out.println("Deleted ✅");
+                System.out.println("Deleted");
                 return;
             }
             i++;
         }
-        System.out.println("Not found ❌");
+        System.out.println("Not found");
     }
 
     public void display() {
@@ -190,8 +190,8 @@ public class Assign9Quadratic {
                 case 3 -> q.searchName();
                 case 4 -> q.searchNumber();
                 case 5 -> q.delete();
-                case 0 -> System.out.println("bye 👋");
-                default -> System.out.println("Invalid ❌");
+                case 0 -> System.out.println("bye");
+                default -> System.out.println("Invalid");
             }
         } while (ch != 0);
     }
