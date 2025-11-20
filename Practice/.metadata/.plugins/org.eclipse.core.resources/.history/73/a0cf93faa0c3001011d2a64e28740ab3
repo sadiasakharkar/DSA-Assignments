@@ -1,0 +1,55 @@
+package SLL;
+
+import java.util.*;
+
+class Member {
+	int id ; 
+	String name , address , position;
+	Member next;
+}
+
+class CodeClub{
+	Member head ; 
+	Scanner sc = new Scanner(System.in);
+	
+	CodeClub(){
+		head = null;
+	}
+	
+	public void create() {
+		System.out.println("Enter number of member you want to add?");
+		int n = sc.nextInt();
+		sc.nextLine();
+		
+		System.out.println("Enter the deatils of each member: ");
+		for(int i = 0 ; i < n i++) {
+			insertnode();
+		}
+	}
+	
+	public void insertnode() {
+		
+	}
+	
+	public void display() {
+		
+	}
+	
+	public void delete() {
+		
+	}
+	
+	public void update() {
+		
+	}
+	
+	
+}
+
+public class SLL {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+
+	}
+
+}

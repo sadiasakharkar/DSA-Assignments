@@ -1,0 +1,45 @@
+package GreedyMethod;
+
+import java.util.*;
+
+class GreedyJob{
+	char id ;
+	int profit;
+	int deadline;
+	
+	GreedyJob(char id , int profit , int deadline){
+		this.id = id ; 
+		this.profit = profit;
+		this.deadline = deadline;
+	}
+
+}
+
+public class GreedyMethod {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("Enter the number of job you want to insert: ");
+		int n = sc.nextInt();
+		
+		sc.nextLine();
+		
+		ArrayList<Greedyjob> jobs = new ArrayList<>();
+		
+		for(int i = 0; i < n ; i++) {
+			System.out.prinln("Enter job id(char) : ");
+			char id = sc.next().charAt(0);
+			
+			System.out.println("Enter job profit: ");
+			int profit = sc.nextInt();
+			
+			System.out.println("Enter job deadline: ");
+			int deadline = sc.nextInt();
+			
+			jon
+		}
+
+	}
+
+}

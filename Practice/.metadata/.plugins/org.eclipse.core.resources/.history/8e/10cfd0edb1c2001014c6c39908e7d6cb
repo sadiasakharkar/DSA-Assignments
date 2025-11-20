@@ -1,0 +1,18 @@
+package BST;
+
+import java.util.*;
+
+class Node{
+	String word;
+	String keyword;
+	Node left, right;
+}
+
+public class BST {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

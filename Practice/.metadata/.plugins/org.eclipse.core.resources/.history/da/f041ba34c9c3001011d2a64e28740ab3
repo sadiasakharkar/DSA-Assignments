@@ -1,0 +1,76 @@
+package DFSPath;
+
+import java.util.*;
+
+class Node{
+	int data, weight;
+	Node next;
+	
+	Node(int data , int weight){
+		this.data = data;
+		this.weight = weight;
+		this.next = null;
+	}
+	
+}
+
+class CustomLinkedList{
+	Node head;
+	
+	public void addlast(int data , int weight) {
+		Node newnode = new Node( data,  weight);
+		if(head == null) {
+			head = newnode;
+			return;
+		}
+		else {
+			Node temp = head;
+			while(temp.next!= null) {
+				temp = temp.next;
+			}
+			temp.next = newnode;
+		}
+	}
+}
+
+class GraphList{
+	int v ;
+	CustomLinkedList adjlist[];
+	
+	
+	GraphList(int v){
+		this.v = v;
+		adjlist = new CustomLinkedList[v+1];
+		for(int i = 1 ; i<=v; i++) 
+			adjlist[i] = new CustomLinkedList();
+	}
+	
+	public void creategraph() {
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("Enter the number of edges:");
+		int e  = sc.nextInt();
+		
+		 if (e <= 0) {
+	            System.out.println("Graph must have at least one edge!");
+	            return;
+	        }
+
+		
+		for(int i = 0 ; i < e ; i++) {
+			System.out.println("Enter the data for edge"+ (i+1) +"as (src dest weight):");
+			int v1 = sc.nextInt();
+			int v2 = sc.nextInt();
+			int w = sc.nextInt();
+		}
+	}
+}
+
+public class DFSPath {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

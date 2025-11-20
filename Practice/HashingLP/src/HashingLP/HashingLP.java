@@ -1,0 +1,230 @@
+package HashingLP;
+
+import java.util.*;
+
+class Contact{
+	long number;
+	String name;
+	String email;
+	
+	Contact(long number , String name , String email){
+		this.number = number ;
+		this.name = name ;
+		this.email = email;
+	}
+}
+
+
+class ContactList{
+	Scanner sc = new Scanner(System.in);
+	
+	private static final Contact DELETED = new Contact(-1 , "DELETED" , "");
+	
+	int size;
+	Contact[] hashtable;
+	
+	ContactList(int size){
+		this.size = size;
+		hashtable = new Contact[size];
+	}
+	
+	int hash(long number) {
+		return (int)(Math.abs(number % size));
+	}
+	
+	private boolean isvalidnumber(long number) {
+		return String.valueOf(number).matches("\\d{10}");
+	}
+	
+	private boolean isvalidname(String name) {
+		return name!= null && !name.trim().isEmpty();
+	}
+	
+	private boolean isvalidemail(String email) {
+		return email.matches("^[A-Za-z0-9+.-_]+@[A-Za-z0-9.-]+$");
+	}
+	
+	private boolean isexist(long number) {
+		int index = hash(number);
+		int startindex = index;
+		
+		while(hashtable[index]!= null) {
+			if(hashtable[index]!= DELETED && hashtable[index].number == number) {
+				return true;
+			}
+			index = (index+1) % size;
+			
+			if(index == startindex) {
+				break;
+			}
+		}
+		return false;
+	}
+	
+	
+	public void create() {
+		System.out.println("Enter number :");
+		long number = sc.nextLong();
+		sc.nextLine();
+		
+		System.out.println("Enter name: ");
+		String name = sc.nextLine().trim();
+		
+		System.out.println("Enter email: ");
+		String email = sc.nextLine().trim();
+		
+		if(!isvalidnumber(number)) {
+			System.out.println("Invalid Number!! the number should be of 10 digits");
+			return;
+		}
+		
+		if(!isvalidname(name)) {
+			System.out.println("Invalid name!");
+			return;
+		}
+		
+		if(!isvalidemail(email)) {
+			System.out.println("Invalid email!! Use proper email");
+			return;
+		}
+		
+		if(isexist(number)) {
+			System.out.println("The phone number already exists!!");
+			return;
+		}
+		
+		Contact newcon = new Contact(number , name , email);
+		
+		int index = hash(number);
+		int startindex = index;
+		
+		boolean collision = false;
+		
+		while(hashtable[index] !=null && hashtable[index]!= DELETED) {
+				collision = true;
+				int oldindex = index;
+				
+				System.out.println("Collision occured at index " + oldindex);
+				
+				index = (index+1) % size;
+				
+				if(index == startindex) {
+					System.out.println("The table is full, can't insert more values!");
+					return;
+				}
+		}
+		hashtable[index] = newcon;
+		
+		if(collision) {
+			System.out.println("Collision is resolved and contact is placed at index " + index);
+		} else {
+			System.out.println("The contact is placed at index "+ index);
+		}
+	}
+	
+	public void search() {
+		System.out.println("Enter the number you want to search: ");
+		long number = sc.nextLong();
+		sc.nextLine();
+		
+		int index = hash(number);
+		int startindex = index;
+		
+		while(hashtable[index]!=null) {
+			if(hashtable[index]!= DELETED && hashtable[index].number == number) {
+				Contact c = hashtable[index];
+				
+				System.out.printf("Found: %-10s | %-15d | %-20s%n" , 
+						c.name , c.number, c.email);
+			}
+			index = (index+1) % size;
+			
+			if(index == startindex) 
+				return;
+		}
+		
+		System.out.println("Contact not found!!!");
+		
+	}
+	
+	public void delete() {
+		System.out.println("Enter the number you want to delete the record of: ");
+		long number = sc.nextLong();
+		
+		int index = hash(number);
+		int startindex = index;
+		
+		while(hashtable[index]!=null) {
+			if(hashtable[index]!= DELETED && hashtable[index].number == number) {
+				hashtable[index] = DELETED;
+				System.out.println("Contact deleted!");
+			}
+			
+			index = (index+1) % size;
+			
+			if(index == startindex) {
+				return;
+			}
+		}
+		System.out.println("Contact not found!!!!");
+	}
+	
+	public void display() {
+		System.out.println("=================CONTACT DETAILS==================");
+		
+		
+		System.out.printf("%-10s | %-10s | %-15s | %-15s%n" , "INDEX" , "NAME" ,"MOBILE NO" , "EMAIL");
+		System.out.println("-----------------------------------------------------------------------");
+		
+		for (int i = 0 ; i < size ; i++) {
+			Contact c = hashtable[i];
+			if(c == null)
+				System.out.printf("%-10s | %-10s | %-15s | %-15s%n" , i , "NULL" , "-" , "-");		
+			else if (c == DELETED)
+				System.out.printf("%-10s | %-10s | %-15s | %-15s%n" , i , "<DELETED>" , " " , " ");
+			else
+				System.out.printf("%-10s | %-10s | %-15d | %-15s%n" , i , c.name , c.number , c.email);
+				
+		}
+	}
+	
+}
+
+public class HashingLP {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("Enter the size of table: ");
+		int size = sc.nextInt();
+		
+		ContactList t = new ContactList(size);
+		
+		int choice;
+		
+		do {
+			System.out.println("\n===== MENU =====");
+            System.out.println("1. INSERT");
+            System.out.println("2. DISPLAY");
+            System.out.println("3. SEARCH BY NUMBER");
+            System.out.println("4. DELETE BY NUMBER");
+            System.out.println("0. EXIT");
+
+            System.out.print("Enter choice: ");
+            choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1 -> t.create();
+                case 2 -> t.display();
+                case 3 -> t.search();
+                case 4 -> t.delete();
+                case 0 -> System.out.println("👋 Goodbye!");
+                default -> System.out.println("❌ Invalid choice!");
+            }
+			
+		}while(choice !=0);
+		
+		sc.close();
+	}
+}

@@ -1,0 +1,27 @@
+package BST;
+
+import java.util.*;
+
+class Node{
+	String word;
+	String meaning;
+	Node left, right;
+	
+	Node(String word , String meaning){
+		this.word = word;
+		this.meaning = meaning;
+		this.left = null;
+		this.right = null;
+	}
+}
+
+
+
+public class BST {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,95 @@
+package DLL;
+
+import java.util.*;
+
+class Node{
+	int id ;
+	String song ;
+	String artist;
+	
+	Node prev , next;
+	
+	Node(int id , String song , String artist){
+		this.id = id ;
+		this.song = song;
+		this.artist = artist;
+		this.prev = null;
+		this.next = null;
+	}
+}
+
+class Playlist{
+	Node head , tail , current;
+	
+	Playlist(Node head , Node tail){
+		head = tail = current =  null;
+	}
+	
+	
+	public void insertfirst(int id , String song , String artist) {
+		Node newnode = new Node(id , song , artist);
+		
+		if(head == null) {
+			head = tail = current = newnode;
+			return;
+		}
+		
+		else {
+			newnode.next = head;
+			head.prev = newnode ;
+			head = newnode;
+		}
+		System.out.println("New song added at the beginning!");
+	}
+
+	
+	public void insertlast(int id , String song , String artist) {
+		Node newsong = new Node(id , song , artist);
+		
+		if (tail == null) {
+			head = tail = current = newsong;
+		}
+		else {
+			tail.next = newsong ;
+			newsong.prev = tail;
+			tail = newsong;
+		}
+		
+		System.out.println("Song inserted at last successfulluy");
+	}
+	
+	public void insertat(int id , String name , String artist, int pos) {
+		Node newSong = new Node(id , name , artist);
+		
+		if(pos < 0 ) {
+			System.out.println("Invalid position!!(NEGATIVE????)");
+			return;
+		}
+		
+		if(head == null) {
+			if(pos > 0 ) {
+				System.out.println("invalid position man");
+				return;
+			}
+			else {
+				head = tail = current = newSong;
+				newSong.prev = null;
+				newSong.next = null;
+				 System.out.println("New song inserted at postion specified");
+			}
+			
+			
+		}
+	}
+}
+
+
+
+public class DLL {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

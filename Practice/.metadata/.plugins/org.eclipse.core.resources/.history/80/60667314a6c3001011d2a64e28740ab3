@@ -1,0 +1,163 @@
+package SLL;
+
+import java.util.*;
+
+class Member {
+	int id ; 
+	String name , address , position;
+	Member next;
+	
+	Member(int id , String name , String address , String position){
+		this.id = id;
+		this.name = name ;
+		this.address = address;
+		this.position = position;
+		this.next = null;
+	}
+}
+
+class CodeClub{
+	Member head ; 
+	Scanner sc = new Scanner(System.in);
+	
+	CodeClub(){
+		head = null;
+	}
+	
+	public void create() {
+		System.out.println("Enter number of member you want to add?");
+		int n = sc.nextInt();
+		sc.nextLine();
+		
+		System.out.println("Enter the deatils of each member: ");
+		for(int i = 0 ; i < n ;i++) {
+			insertnode();
+		}
+	}
+	
+	public void insertnode() {
+		System.out.println("Enter member id : ");
+		int id = sc.nextInt();
+		sc.nextLine();
+		
+		System.out.println("Enter member name: ");
+		String name = sc.nextLine();
+		
+		System.out.println("Enter member address: ");
+		String address = sc.nextLine();
+		
+		System.out.println("Enter memebr position (Secratory / president / member): ");
+		String position = sc.nextLine();
+		
+		Member newmember = new Member(id , name , address , position);
+		
+		if(head == null) {
+			head = newmember;
+			return;
+		}
+		else {
+			Member temp = head;
+			while(temp.next != null) {
+				temp = temp.next;
+			}
+			
+			temp.next = newmember;
+		}
+		
+		System.out.println("Member added successfully!");
+	}
+	
+	public void display() {
+		if(head == null) {
+			System.out.println("Nothing to display , list is empty!");
+		}
+		
+		System.out.println("-------Member of our code club!!");
+		Member temp = head;
+		while(temp != null) {
+			System.out.println("Member id : " +temp.id+ " Member name: " +temp.name+ " Member address: "+temp.address+ " Member position : "+temp.position);
+			temp = temp.next;
+		}
+		
+	}
+	
+	public void delete() {
+		if(head == null) {
+			System.out.println("Nothing to be deleted the list is empty!");
+		}
+		
+		System.out.println("Enter the member id you want to delete:");
+		int id = sc.nextInt();
+		sc.nextLine();
+		
+		if(head.id == id) {
+			head = head.next;
+		}
+		
+		Member temp = head ;
+		while(temp.next != null & temp.next.id == id) {
+			temp = temp.next;
+		}
+		
+		if(temp.next == null) {
+			System.out.println("Member not found");
+		} else {
+			temp.next = temp.next.next;
+			System.out.println("member deleted successfullly!!!");
+		}
+	}
+	
+	public void update() {
+		System.out.println("Enter member id to update:");
+		int id = sc.nextInt();
+		
+		Member temp = head;
+		
+		while(temp!=null && temp.id !=id) {
+			temp = temp.next;
+		}
+		
+		if(temp == null) {
+			System.out.println("Mmeber with id not found");
+		}
+		
+		else {
+			System.out.println("Enter name to update:");
+			temp.name = sc.nextLine();
+			System.out.println("Enter address to update:");
+			temp.address = sc.nextLine();
+			System.out.println("Enter position to update:");
+			temp.position = sc.nextLine();
+            System.out.println("Member updated!");
+
+		}
+	}
+}
+
+public class SLL {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		
+		CodeClub club = new CodeClub();
+		
+		int choice ;
+		char ans ;
+		
+		do {
+			System.out.println("\n--- Menu ---");
+            System.out.println("1. Create members");
+            System.out.println("2. Insert member");
+            System.out.println("3. Show members");
+            System.out.println("4. Delete member");
+            System.out.println("5. Update member");
+            System.out.println("6. Exit");
+            System.out.print("Choose option: ");
+            choice = sc.nextInt();
+            sc.nextLine();
+
+			
+		}while( asn == 'y' || ans == 'Y');
+
+	}
+
+}

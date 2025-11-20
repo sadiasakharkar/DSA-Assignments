@@ -1,0 +1,30 @@
+package HashingLP;
+
+import java.util.*;
+
+class Contact{
+	long number;
+	String name;
+	String email;
+	
+	Contact(long number , String name , String email){
+		this.number = number ;
+		this.name = name ;
+		this.email = email;
+	}
+}
+
+
+class ContactList{
+	Scanner sc = new Scanner(System.in);
+	
+}
+
+public class HashingLP {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

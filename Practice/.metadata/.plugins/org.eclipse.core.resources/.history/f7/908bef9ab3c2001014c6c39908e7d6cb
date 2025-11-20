@@ -1,0 +1,73 @@
+package BST;
+
+import java.util.*;
+
+class Node{
+	String word;
+	String meaning;
+	Node left, right;
+	
+	Node(String word , String meaning){
+		this.word = word;
+		this.meaning = meaning;
+		this.left = null;
+		this.right = null;
+	}
+}
+
+class Binary {
+	
+	Node root ;
+	Scanner sc = new Scanner(System.in);
+	
+	Binary(){
+		root = null;
+	}
+	
+	Node insert(Node root , String word , String meaning) {
+		if(root == null) {
+			root = new Node( word , meaning);
+			return root;
+		}
+		if (word.compareToIgnoreCase(root.word) < 0) {
+			root.left = insert(root.left , word , meaning);
+		}else if(word.compareToIgnoreCase(root.word ) > 0 ) {
+			root.right = insert(root.right , word , meaning);
+		}else {
+			System.out.println("Keyword already exists!!");
+		}
+	return root;	
+	}
+	
+	
+	void create() {
+		String choice ; 
+		do {
+			System.out.println("Enter keyword:");
+			String word = sc.nextLine();
+			
+			
+			
+		}while(choice.compareToIgnoreCase("yes"));
+	}
+	
+	// display
+	
+	Node inorder(Node root) {
+		
+	}
+	
+	void display() {
+		
+	}
+	
+}
+
+public class BST {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,61 @@
+package DLL;
+
+import java.util.*;
+
+class Node{
+	int id ;
+	String song ;
+	String artist;
+	
+	Node prev , next;
+	
+	Node(int id , String song , String artist){
+		this.id = id ;
+		this.song = song;
+		this.artist = artist;
+		this.prev = null;
+		this.next = null;
+	}
+}
+
+class Playlist{
+	Node head , tail , current;
+	
+	Playlist(Node head , Node tail){
+		head = tail = current =  null;
+	}
+	
+	
+	public void insertfirst(int id , String song , String artist) {
+		Node newnode = new Node(id , song , artist);
+		
+		if(head == null) {
+			head = tail = current = newnode;
+			return;
+		}
+		
+		else {
+			newnode.next = head;
+			head.prev = newnode ;
+			head = newnode;
+		}
+		System.out.println("New song added at the beginning!");
+	}
+
+	
+	public void insertlast(int id , String song , String artist) {
+		Node newsong = new Node(id , song , artist);
+		
+	}
+}
+
+
+
+public class DLL {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

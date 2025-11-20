@@ -1,0 +1,69 @@
+package Library;
+
+import java.util.*;
+
+class Book{
+	String name, author ;
+	int isbn ;
+	
+	Book(String name , String author , int isbn){
+		this.name = name ;
+		this.author = author;
+		this.isbn = isbn;
+	}
+	
+	@Override
+	public String toString() {
+		return "Book Name: " + BookName + ", Author: " + AuthorName + ", ISBN: " + ISBNNo;
+	}
+}
+
+class BookShelf{
+	Scanner sc = new Scanner(System.in);
+	
+	Book[] thebooks = new Book[50];
+	int count = 0;
+	
+	public void insert() {
+		if(count >= thebooks.length) {
+			System.out.println("No book to be displayed");
+			return;
+		}
+		
+		System.out.println("Enter the book name: ");
+		String name = sc.nextLine();
+		System.out.println("Enter author name: ");
+		String author = sc.nextLine();
+		System.out.println("Enter ISBN no: ");
+		int isbn = sc.nextInt();
+		sc.nextLine();
+		
+		thebooks[count++] = new Book(name , author , isbn);
+		System.out.println("Book added Successfully!");
+	}
+	
+	public void display() {
+		if(count == 0) {
+			System.out.println("the shelf is empty");
+			return;
+		}
+		
+		System.out.println("-------Displaying books------");
+		for(int i = 0 ; i < count ;  i++) {
+			System.out.println(thebooks[i]);
+			
+		}
+	}
+	
+	
+	
+}
+
+public class Library {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

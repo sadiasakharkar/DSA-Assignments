@@ -1,0 +1,209 @@
+package Library;
+
+import java.util.*;
+
+class Book{
+	String name, author ;
+	int isbn ;
+	
+	Book(String name , String author , int isbn){
+		this.name = name ;
+		this.author = author;
+		this.isbn = isbn;
+	}
+	
+	@Override
+	public String toString() {
+		return "Book Name: " + name + ", Author: " + author + ", ISBN: " + isbn;
+	}
+}
+
+class BookShelf{
+	Scanner sc = new Scanner(System.in);
+	
+	Book[] thebooks = new Book[50];
+	int count = 0;
+	
+	public void insert() {
+		if(count >= thebooks.length) {
+			System.out.println("No book to be displayed");
+			return;
+		}
+		
+		System.out.println("Enter the book name: ");
+		String name = sc.nextLine();
+		System.out.println("Enter author name: ");
+		String author = sc.nextLine();
+		System.out.println("Enter ISBN no: ");
+		int isbn = sc.nextInt();
+		sc.nextLine();
+		
+		thebooks[count++] = new Book(name , author , isbn);
+		System.out.println("Book added Successfully!");
+	}
+	
+	public void display() {
+		if(count == 0) {
+			System.out.println("the shelf is empty");
+			return;
+		}
+		
+		System.out.println("-------Displaying books------");
+		for(int i = 0 ; i < count ;  i++) {
+			System.out.println(thebooks[i]);
+		}
+	}
+	
+	// done using binary search
+	public void searchisbn() {
+		bubblesort();
+		
+		System.out.print("Enter ISBN to search: ");
+        int key = sc.nextInt();
+        sc.nextLine();
+        
+        int low = 0, high = count - 1, foundIndex = -1;
+		
+	}
+	
+	// done using linear search
+	public void searchauthor() {
+		if(count == 0) {
+			System.out.println("No book to be found bcoz list is empty");
+		}
+		
+		System.out.println("Enter author name to be searched:");
+		String name = sc.nextLine();
+		
+		boolean found = false;
+		
+		for (int i = 0; i < count ; i++) {
+			if(thebooks[i].author.equalsIgnoreCase(name)) {
+				 System.out.println(thebooks[i]);
+	                found = true;
+			}
+		}
+		
+		if(!found) {
+			System.out.println("The book with teh author doesnt exist!!");
+		}
+	}
+	
+	
+	public void sortbooks() {
+		if(count == 0) {
+			System.out.println("No book to be sort");
+		}
+		
+		System.out.println("Enter which method you want to use while sorting: ");
+		System.out.println("1. Bubble sort");
+		System.out.println("2. Insertion sort");
+		System.out.println("3. Quick sort");
+		int choice = sc.nextInt();
+		sc.nextLine();
+		
+		switch(choice) {
+			case 1: bubblesort(); break;
+			case 2: insertionsort(); break;
+			case 3: quicksort(0 , count-1); break;
+			default: System.out.println("Invalid choice"); break;
+		
+		}
+		System.out.println("Books are sorted ");
+		display();
+	}
+	
+	
+	private void quicksort(int low, int high) {
+		if (low < high) {
+			int pivot = partition( low , high);
+			quicksort(low , pivot-1);
+			quicksort(pivot +1 , high);
+		}	
+	}
+
+	private int partition(int low, int high) {
+		int pivot = thebooks[high].isbn;
+		int i = low -1;
+		
+		for(int j = low ; j < high ; j++) {
+			if(thebooks[j].isbn < pivot) {
+				i++;
+
+				Book temp = thebooks[i];
+                thebooks[i] = thebooks[j];
+                thebooks[j] = temp;
+            }
+		}
+		i++;
+		Book temp = thebooks[i];
+		thebooks[i] = thebooks[high];
+		thebooks[high] = temp;
+		
+		
+		return i;
+	}
+
+	private void insertionsort() {
+		
+		for(int i = 0 ; i < count -1 ; i++) {
+			for (int j = i+1 ; j > 0; j--) {
+				if(thebooks[j].isbn < thebooks[j-1].isbn) {
+					Book temp = thebooks[j];
+					thebooks[j] = thebooks[j-1];
+					thebooks[j-1] = temp;
+				}else {
+					break;
+				}
+			}
+		}
+		
+	}
+
+	private void bubblesort() {
+		
+		for(int i = 0 ; i < count -1 ; i ++) {
+			for(int j = 0 ; j< count -i-1 ; j++) {
+				if(thebooks[j].isbn > thebooks[j+1].isbn) {
+					Book temp = thebooks[i];
+					thebooks[j] = thebooks[j+1];
+					thebooks[j+1] = temp;
+				}
+			}
+		}
+	}	
+}
+
+public class Library {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+        BookShelf lib = new BookShelf();
+        int choice;
+        do {
+            System.out.println("\n- Library Menu -");
+            System.out.println("1. Add Book");
+            System.out.println("2. Display All Books");
+            System.out.println("3. Search by ISBN (Binary Search)");
+            System.out.println("4. List all books by Author");
+            System.out.println("5. Sort Books by ISBN");
+            System.out.println("0. Exit");
+            System.out.print("Enter your choice: ");
+            choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1 -> lib.insert();
+                case 2 -> lib.display();
+                case 3 -> lib.searchisbn();
+                case 4 -> lib.searchauthor();
+                case 5 -> lib.sortbooks();
+                case 0 -> System.out.println("Exiting... Thank you!");
+                default -> System.out.println("Invalid choice.");
+            }
+        } while (choice != 0);
+        sc.close();
+
+	}
+
+}

@@ -1,0 +1,65 @@
+package StackAssign;
+import java.util.*;
+
+class Stack{
+	int maxsize;
+	int[] stk;
+	int top;
+	
+	Stack(int maxsize){
+		this.maxsize = maxsize;
+		stk = new int[maxsize];
+		this.top = -1;
+	}
+	
+	
+	public boolean isFull() {
+		return (top == (maxsize-1));
+	}
+	
+	public boolean isEmpty() {
+		return (top == -1);
+	}
+	
+	public void push(int element) {
+		if(isFull()) {
+			System.out.println("Stack overflow");
+			return;
+		} else {
+			stk[++top] = element;
+		}
+	}
+	
+	public int pop(){
+		if(isEmpty()) {
+			System.out.println("Stack underflow");
+			return -1;
+		} else {
+			return stk[top--];
+		}
+	}
+	
+	
+	public void evulate(String exp) {
+		Stack s = new Stack(exp.length());
+		
+		for(int i = 0 ; i < exp.length(); i++) {
+			
+			char ch = exp.charAt(i);
+			if(Character.isDigit(ch)) {
+				if(isFull()) {
+					System.out.println("Invalid expression!!!");
+				}
+				
+				s.push(ch -'0');
+			}
+		}
+	}
+}
+
+public class StackAssign {
+	public static void Main(String[] args)
+	{
+		
+	}
+}

@@ -1,0 +1,36 @@
+package DLL;
+
+import java.util.*;
+
+class Node{
+	int id ;
+	String song ;
+	String artistname;
+	
+	Node prev , next;
+	
+	Node(int id , String song , String artistname){
+		this.id = id ;
+		this.song = song;
+		this.artistname = artistname;
+		this.prev = null;
+		this.next = null;
+	}
+}
+
+class Playlist{
+	Node head , tail , current;
+	
+	Playlist(Node head , Node tail){
+		head = tail = current =  null;
+	}
+}
+
+public class DLL {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,122 @@
+package BST;
+
+import java.util.*;
+
+class Node{
+	String word;
+	String meaning;
+	Node left, right;
+	
+	Node(String word , String meaning){
+		this.word = word;
+		this.meaning = meaning;
+		this.left = null;
+		this.right = null;
+	}
+}
+
+class Binary {
+	
+	Node root ;
+	Scanner sc = new Scanner(System.in);
+	
+	Binary(){
+		root = null;
+	}
+	
+	Node insert(Node root , String word , String meaning) {
+		if(root == null) {
+			root = new Node( word , meaning);
+			return root;
+		}
+		if (word.compareToIgnoreCase(root.word) < 0) {
+			root.left = insert(root.left , word , meaning);
+		}else if(word.compareToIgnoreCase(root.word ) > 0 ) {
+			root.right = insert(root.right , word , meaning);
+		}else {
+			System.out.println("Keyword already exists!!");
+		}
+	return root;	
+	}
+	
+	
+	void create() {
+		String choice ; 
+		do {
+			System.out.println("Enter keyword:");
+			String word = sc.nextLine();
+			
+			System.out.println("Enter meaning: ");
+			String meaning = sc.nextLine();
+			
+			root = insert( root , word , meaning);
+			
+			System.out.println("Do you want ot add more??");
+			choice = sc.nextLine();
+			
+		}while(choice.equalsIgnoreCase("yes"));
+	}
+	
+	// display
+	
+	void inorder(Node root) {
+		if(root != null) {
+			inorder(root.left);
+			System.out.println(root.word+" : "+root.meaning);
+			inorder(root.right);
+		}
+	}
+	
+	void display() {
+		if(root == null) {
+			System.out.println("Tree ie empty");
+			return ;
+		}
+		
+		System.out.println("Displaying tree in inorder manner:");
+		inorder(root);
+	}
+	
+	Node searchNode(Node root, String key) {
+	    if (root == null)
+	        return null;
+
+	    if (key.compareToIgnoreCase(root.word) == 0)
+	        return root;
+
+	    if (key.compareToIgnoreCase(root.word) < 0)
+	        return searchNode(root.left, key);
+	    else
+	        return searchNode(root.right, key);
+	}
+
+	
+	void search() {
+		
+		if (root == null) {
+			System.out.println("tree is empty");
+			return;
+		}
+		
+		System.out.println("Enter keyword to search:");
+		String key = sc.nextLine();
+		
+		Node res = searchNode(root , key);
+		
+		if (res == null) {
+			System.out.println("Node doesnt exit");
+		}
+		else {
+			System.out.println("Meaning: " + res.meaning);
+		}
+	}
+}
+
+public class BST {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
